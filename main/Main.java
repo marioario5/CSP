@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
 public class Main {
 	
 	public static void main(String[] args) throws IOException {
-
+		String requestedArtist;
 		String songs = Files.readString(Paths.get("src/main/songs/StreamingHistory_music_0.json"));
 		JsonArray jsonarray = JsonParser.parseString(songs).getAsJsonArray();
 		List<Song> songList = new ArrayList<>();
@@ -26,21 +26,20 @@ public class Main {
 			songList.add(song);
 		}
 		
-		getSongs(songList, songs, scanner);
+		System.out.println("Which artist?");
+		requestedArtist = scanner.nextLine();
+		getSongs(songList, requestedArtist);
 		
 	}
 	
-	public static void getSongs(List<Song> songList, String date, Scanner scanner) {
-		String requestedArtist;
+	public static void getSongs(List<Song> songList, String requestedArtist) {
+
 		int totalms = 0;
 		Boolean found = false;
 		
-		System.out.println("Which artist?");
-		requestedArtist = scanner.nextLine();
-		
 		for(int x = 0; x<songList.size(); x++) {
 			String songArtist = songList.get(x).getArtist();
-			if (songArtist.equals(requestedArtist) && songList.get(x).msPlayed>1000) {
+			if (songArtist.equals(requestedArtist) && songList.get(x).msPlayed>2000) {
 				System.out.println(songList.get(x));
 				totalms += songList.get(x).msPlayed;
 				found = true;
